@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 
 import { BsShieldLockFill } from 'react-icons/bs';
+import { BiShow, BiHide } from 'react-icons/bi';
 import { ImEnter } from 'react-icons/im';
 import { FaUserAlt, FaAddressBook } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
@@ -10,11 +11,7 @@ import '../styles/mainStyles.css'
 
 function UserRegister() {
 
-    const handelLogInSubmit = (e) => {
-        e.preventDefault();
-        console.log('submitted')
-    }
-
+    
     const [userDetails, setUserDetails] = useState({
         firstName: '',
         lastName: '',
@@ -23,16 +20,29 @@ function UserRegister() {
         address : '',
         password : ''
     })
-
+    const [showPassword, setShowPassword] = useState('false')
+    
     const handelInputChange = (e) => {
         const {name, value} = e.target;
         setUserDetails({...userDetails, [name]:value})
+    }
+    const handelRegisterSubmit = (e) => {
+        e.preventDefault();
+        if(userDetails.firstName.trim() !==''){
+            console.log('seeesh')
+        }else{
+            console.log('submitted')
+        }
+    }
+    
+    const handelShowPassword = ()  => {
+        setShowPassword(!showPassword)
     }
     return (
         <div className="container">
         <div className="screen">
             <div className="screen__content">
-                <form className="register" onSubmit={handelLogInSubmit}>
+                <form className="register" onSubmit={handelRegisterSubmit}>
                     <div className="login__field fas" style = {{display: 'flex'}}>
                         <FaUserAlt className = 'login__icon'/>
                         <input onChange = {handelInputChange} name ='firstName' type="text"  className="login__input" placeholder="First Name" style = {{ marginRight : '10px'}} />
@@ -44,7 +54,7 @@ function UserRegister() {
                     </div>
                     <div className="login__field fas">
                         <AiFillPhone className = 'login__icon'/>
-                        <input onChange = {handelInputChange} name ='phoneNumber' type="number" className="login__input" placeholder="Phone Number" />
+                        <input onChange = {handelInputChange} name ='phoneNumber' type="number" className="login__input" placeholder="Phone Number"/>
                     </div>
                     <div className="login__field fas">
                         <FaAddressBook className = 'login__icon'/>
@@ -52,7 +62,8 @@ function UserRegister() {
                     </div>
                     <div className="login__field">
                         <BsShieldLockFill className = 'login__icon' />
-                        <input onChange = {handelInputChange} name ='password' type="password" className="login__input" placeholder="Password" />
+                        <input onChange = {handelInputChange} name ='password' type={showPassword ? "password" : "text"} className="login__input" placeholder="Password" />
+                        {showPassword ?<BiShow onClick = {handelShowPassword}/> : <BiHide onClick = {handelShowPassword}/>}
                     </div>
                     <button type='submit' className="button login__submit" >
                         <span className="button__text">Register Now</span>
